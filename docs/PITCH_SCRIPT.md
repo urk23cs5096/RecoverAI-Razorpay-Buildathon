@@ -17,20 +17,19 @@
 
 ---
 
-### [1:15 – 2:45] 3. Live Product & Workbench Demo *(Screen Share UI)*
-> *"Let's see RecoverAI in action.*
+### [1:15 – 2:45] 3. Live Product & Workbench Demo *(Screen Share UI & CLI Walkthrough)*
+> *"Let's see RecoverAI execute live.*
 > 
-> *(Clicking Workbench)*
-> *Here in our Live Agent Workbench, let's look at **Scenario 1: An HDFC Bank Downtime incident at 1:30 AM** on a ₹4,999 SaaS subscription.*
+> *(Running `python run_demo.py` on real held-out incident `txn_102116`)*
+> *Watch the agent execute its 9-stage pipeline in under 5 seconds on a real ₹1,19,334.92 B2B enterprise payment failure:*
+> 1. **Incident Ingestion & Features**: The agent ingests the `INSUFFICIENT_FUNDS` error (`U66`) and transforms 14 leak-free features in under 10ms.
+> 2. **Probability Calibration in Action**: The raw tree model underconfidently predicted 59.4%. Platt scaling corrects this to **68.04%** ($ECE = 0.0101$).
+> 3. **Expected Value Financial Decision**: Uncalibrated probabilities would have selected a delayed WhatsApp link (Net EV: ₹79,424). Calibrated EV selects **`MANUAL_ESCALATION`** (Net EV: **₹1,04,964**), capturing an extra **+₹25,539.85 in expected ROI**.
+> 4. **Deterministic Safety Guardrails**: Circuit breakers instantly verify Max Retries ($0 < 3$), 24h fatigue cooldown, and the ₹50,000+ high-value threshold to approve concierge escalation.
+> 5. **Execution & Physical Rails Verification**: The agent drafts empathetic recovery copy, issues a unique SHA-256 idempotency key (`3ed490b1...`), and executes via the physical simulator—recovering the full **₹1,19,334.92 gross revenue** with ₹50 direct ops cost and ₹0 friction (Net: **+₹1,19,284.92**).
+> 6. **Immutable Provenance**: All math, calibrated probabilities, and guardrails are cryptographically logged to the SQLite audit trail.
 > 
-> *When we trigger the agent, notice what happens in milliseconds:*
-> 1. **Detection & Diagnosis**: Our calibrated ML model identifies code `U19` during midnight maintenance hours. It assigns an 88% probability of recovery—**provided we wait for bank maintenance to clear**.
-> 2. **Expected Value Optimization**: Instead of retrying immediately, the decision engine computes $\mathbb{E}[\text{ROI}]$ across all channels and recommends a **Smart Retry with a 3-hour backoff window**.
-> 3. **LLM Contextual Reasoning**: The LLM synthesizes merchant operations guidance and drafts a reassuring message assuring the customer that no double-debit will occur.
-> 4. **Safety Guardrails**: The transaction is verified against circuit breakers, assigned a unique cryptographic idempotency key, and logged into an immutable audit trail.
-> 
-> *Now let's look at **Scenario 2: An E-Commerce 3DS Checkout Drop**.*
-> *Auto-retrying a card without user OTP is physically impossible (0% recovery). RecoverAI instantly recognizes this, bypasses auto-retry, and dispatches a **1-click WhatsApp Pay Link with UPI Intent fallback**, recovering 80% of dropped checkouts."*
+> *In our interactive Workbench, this same engine handles bank downtime with dynamic maintenance backoffs and 3DS drops with 1-click WhatsApp pay links."*
 
 ---
 
