@@ -162,9 +162,13 @@ python run_api.py
 # OpenAPI Docs: http://127.0.0.1:8000/docs
 ```
 
-### Step 6: Launch Streamlit Interactive Dashboard
+### Step 6: Run Live Demo & Interactive Dashboard
 ```bash
+# 1. Run Narrated CLI End-to-End Walkthrough (<5s)
 python run_demo.py
+
+# 2. Launch Streamlit Interactive Dashboard
+python run_demo.py --dashboard
 # Dashboard opens on: http://localhost:8501
 ```
 
