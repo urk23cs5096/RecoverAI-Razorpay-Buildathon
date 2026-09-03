@@ -11,6 +11,39 @@
 
 ---
 
+### 💡 Executive Summary
+**RecoverAI** is an autonomous, cost-aware revenue recovery agent engineered to eliminate involuntary subscription churn, bank downtime drop-offs, and checkout abandonment in the Indian payment ecosystem (**Razorpay Track 03: AI Revenue Recovery**). Instead of blind, repetitive gateway dunning, RecoverAI optimizes intervention routing via a mathematical **Expected Value ($\mathbb{E}[\text{Net ROI}]$) decision engine** governed by **deterministic safety circuit breakers**. The system estimates leak-free recovery probabilities via **Platt-calibrated boosted trees**, dispatches actions across multi-rail channels (dynamic switch maintenance backoffs, 1-Click WhatsApp pay links, mandate re-auth links, and UPI Intent switches), and bounds every execution within strict customer fatigue and high-value escalation limits.
+
+> ### 📈 Verified 30-Seed Empirical Results ([`results/robustness_30seed_summary.md`](results/robustness_30seed_summary.md))
+> - **Proven Macro Action-Design Lift**: **+₹2.37 Cr Net Revenue Lift** over standard dunning rules (**$p = 4.09 \times 10^{-45}$**, 95% CI `[+₹2.34 Cr, +₹2.40 Cr]`) across 30 synchronized random seeds evaluating 1,500 held-out test transactions (₹3.64 Cr gross at risk).
+> - **Probability Calibration Precision**: Slashes Expected Calibration Error (ECE) from **0.2710 to 0.0101** (a **96.3% error reduction**, Brier Score **0.1703**), ensuring calculated expected values reflect real monetary recovery odds.
+> - **Empirical Attribution Integrity**: Multi-seed validation proves the macro lift is driven by multi-rail routing, while ML provides essential probability calibration, automated feature attribution, and edge-case margin protection ($p = 0.185$, CI `[-₹3.96L, +₹0.80L]`).
+
+---
+
+### 🖥️ Live Dashboard Preview
+![RecoverAI Dashboard Preview](docs/assets/dashboard_preview.png)
+
+---
+
+### ⚡ Quickstart (Under 30 Seconds)
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Run Narrated End-to-End Walkthrough (<5s)
+python run_demo.py
+
+# 3. Launch Streamlit Interactive UI (opens on http://localhost:8501)
+python run_demo.py --dashboard
+
+# 4. Execute Full Automated Test Suite (22/22 Passing)
+pytest tests/ -v
+```
+*(For complete step-by-step installation, API server setup, and dataset training, see [Section 5: Quickstart & Installation](#-5-quickstart--installation).)*
+
+---
+
 ## ⚠️ Synthetic Benchmark & Sandbox Disclaimer
 **This project is a submission for the Razorpay AI Builder Buildathon (Track 03: AI Revenue Recovery).**  
 All transaction records, customer profiles, payment failures, bank switch downtime profiles, and recovery outcomes are **synthetically generated based on empirical Indian payment industry statistics**. No real Razorpay production data, proprietary customer credentials, or real banking rails are accessed.
