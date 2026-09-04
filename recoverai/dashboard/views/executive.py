@@ -42,9 +42,9 @@ def render_executive_view():
     filtered_df = df if selected_merchant == "ALL" else df[df["merchant_id"] == selected_merchant]
     sample_df = filtered_df.head(benchmark_sample)
 
-    sample_df = sample_df.where(pd.notnull(sample_df), None)
     from recoverai.data.schemas import PaymentTransaction
-    txns = [PaymentTransaction(**row) for row in sample_df.to_dict(orient="records")]
+    clean_records = [{k: (None if pd.isna(v) else v) for k, v in row.items()} for row in sample_df.to_dict(orient="records")]
+    txns = [PaymentTransaction(**row) for row in clean_records]
     
     runner = CounterfactualBenchmarkRunner()
     benchmark_results = runner.run_benchmark(txns)

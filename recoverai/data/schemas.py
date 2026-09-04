@@ -1,9 +1,8 @@
-"""Data schemas and Pydantic validation contracts for RecoverAI."""
-
+import math
 from datetime import datetime
 from enum import Enum
-from typing import Optional, List
-from pydantic import BaseModel, Field, ConfigDict
+from typing import Optional, List, Any
+from pydantic import BaseModel, Field, ConfigDict, model_validator
 
 
 class PaymentMethod(str, Enum):
@@ -62,6 +61,19 @@ class AgentState(str, Enum):
 class PaymentTransaction(BaseModel):
     """Raw or Ingested Payment Transaction Event."""
     model_config = ConfigDict(from_attributes=True)
+
+    @model_validator(mode="before")
+    @classmethod
+    def sanitize_nan_values(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            cleaned = {}
+            for k, v in data.items():
+                if isinstance(v, float) and math.isnan(v):
+                    cleaned[k] = None
+                else:
+                    cleaned[k] = v
+            return cleaned
+        return data
 
     transaction_id: str = Field(..., description="Unique transaction ID (e.g. txn_1001)")
     merchant_id: str = Field(..., description="Merchant identifier (e.g. merch_saas_01)")
