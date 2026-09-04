@@ -33,7 +33,11 @@ dev = [
     "httpx>=0.27.0"
 ]
 
+[tool.setuptools.packages.find]
+include = ["recoverai*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
+

@@ -3,6 +3,14 @@ RecoverAI: Streamlit Interactive Dashboard & Agent Demonstration.
 Submission for Razorpay AI Builder Internship Buildathon (Track 03 - AI Revenue Recovery).
 """
 
+import sys
+from pathlib import Path
+
+# Ensure repository root is in sys.path across all execution environments
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 import streamlit as st
 from recoverai.storage.database import init_db
 from recoverai.config.settings import settings
