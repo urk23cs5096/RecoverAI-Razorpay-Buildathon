@@ -276,6 +276,11 @@ class CounterfactualBenchmarkRunner:
         rule_rate = (rule_results["gross_recovered"] / total_at_risk * 100.0) if total_at_risk > 0 else 0.0
         naive_rate = (naive_results["gross_recovered"] / total_at_risk * 100.0) if total_at_risk > 0 else 0.0
 
+        recov_txn_rate = (recov_results["recovered_count"] / total_count * 100.0) if total_count > 0 else 0.0
+        noml_txn_rate = (noml_results["recovered_count"] / total_count * 100.0) if total_count > 0 else 0.0
+        rule_txn_rate = (rule_results["recovered_count"] / total_count * 100.0) if total_count > 0 else 0.0
+        naive_txn_rate = (naive_results["recovered_count"] / total_count * 100.0) if total_count > 0 else 0.0
+
         summary = {
             "total_transactions": total_count,
             "total_revenue_at_risk_inr": round(total_at_risk, 2),
@@ -284,6 +289,8 @@ class CounterfactualBenchmarkRunner:
                     "policy_name": "RecoverAI (Full Agent with Calibrated ML)",
                     "recovered_count": recov_results["recovered_count"],
                     "recovery_rate_pct": round(recov_rate, 2),
+                    "revenue_recovery_rate_pct": round(recov_rate, 2),
+                    "txn_recovery_rate_pct": round(recov_txn_rate, 2),
                     "gross_recovered_inr": round(recov_results["gross_recovered"], 2),
                     "operational_costs_inr": round(recov_results["costs"], 2),
                     "friction_penalties_inr": round(recov_results["friction"], 2),
@@ -294,6 +301,8 @@ class CounterfactualBenchmarkRunner:
                     "policy_name": "RecoverAI_Actions_No_ML (Ablation: Policy Rules, Uniform Prior)",
                     "recovered_count": noml_results["recovered_count"],
                     "recovery_rate_pct": round(noml_rate, 2),
+                    "revenue_recovery_rate_pct": round(noml_rate, 2),
+                    "txn_recovery_rate_pct": round(noml_txn_rate, 2),
                     "gross_recovered_inr": round(noml_results["gross_recovered"], 2),
                     "operational_costs_inr": round(noml_results["costs"], 2),
                     "friction_penalties_inr": round(noml_results["friction"], 2),
@@ -304,6 +313,8 @@ class CounterfactualBenchmarkRunner:
                     "policy_name": "Rule-Based Heuristic (Standard Dunning)",
                     "recovered_count": rule_results["recovered_count"],
                     "recovery_rate_pct": round(rule_rate, 2),
+                    "revenue_recovery_rate_pct": round(rule_rate, 2),
+                    "txn_recovery_rate_pct": round(rule_txn_rate, 2),
                     "gross_recovered_inr": round(rule_results["gross_recovered"], 2),
                     "operational_costs_inr": round(rule_results["costs"], 2),
                     "friction_penalties_inr": round(rule_results["friction"], 2),
@@ -314,6 +325,8 @@ class CounterfactualBenchmarkRunner:
                     "policy_name": "Naive Immediate 3x Retry",
                     "recovered_count": naive_results["recovered_count"],
                     "recovery_rate_pct": round(naive_rate, 2),
+                    "revenue_recovery_rate_pct": round(naive_rate, 2),
+                    "txn_recovery_rate_pct": round(naive_txn_rate, 2),
                     "gross_recovered_inr": round(naive_results["gross_recovered"], 2),
                     "operational_costs_inr": round(naive_results["costs"], 2),
                     "friction_penalties_inr": round(naive_results["friction"], 2),
@@ -324,6 +337,8 @@ class CounterfactualBenchmarkRunner:
                     "policy_name": "No Intervention (Baseline)",
                     "recovered_count": 0,
                     "recovery_rate_pct": 0.0,
+                    "revenue_recovery_rate_pct": 0.0,
+                    "txn_recovery_rate_pct": 0.0,
                     "gross_recovered_inr": 0.0,
                     "operational_costs_inr": 0.0,
                     "friction_penalties_inr": 0.0,

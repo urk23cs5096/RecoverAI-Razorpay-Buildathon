@@ -19,14 +19,14 @@ def render_executive_view():
     repo = StorageRepository()
     stats = repo.get_executive_summary_stats()
 
-    # Load synthetic transactions for macro metrics
-    raw_path = settings.DATA_DIR / "raw" / "transactions_synthetic.csv"
-    if not raw_path.exists():
-        st.warning("Synthetic dataset not generated yet. Generating now...")
+    # Load held-out test split for scientific benchmark integrity
+    test_path = settings.DATA_DIR / "processed" / "test.csv"
+    if not test_path.exists():
+        st.warning("Held-out test dataset not found. Generating now...")
         from recoverai.data.generator import generate_and_save_data
         generate_and_save_data()
 
-    df = pd.read_csv(raw_path)
+    df = pd.read_csv(test_path)
 
     # Top Filters
     col_f1, col_f2 = st.columns([2, 1])
@@ -37,7 +37,7 @@ def render_executive_view():
             format_func=lambda x: "All Merchants (Aggregated Portfolio)" if x == "ALL" else next((m["merchant_name"] for m in MERCHANTS if m["merchant_id"] == x), x),
         )
     with col_f2:
-        benchmark_sample = st.slider("Benchmark Batch Size", min_value=100, max_value=2500, value=500, step=100)
+        benchmark_sample = st.slider("Benchmark Batch Size", min_value=100, max_value=max(1500, len(df)), value=min(1500, len(df)), step=100)
 
     filtered_df = df if selected_merchant == "ALL" else df[df["merchant_id"] == selected_merchant]
     sample_df = filtered_df.head(benchmark_sample)
@@ -71,11 +71,12 @@ def render_executive_view():
         delta=f"₹{comp.get('net_lift_vs_rule_based_inr', 0):,.0f} Lift vs Rules",
         help="Gross recovered revenue minus gateway retry costs and customer friction penalties.",
     )
+    txn_rate = (recov_ai["recovered_count"] / benchmark_results["total_transactions"] * 100.0) if benchmark_results["total_transactions"] > 0 else 0.0
     kpi3.metric(
-        label="Recovery Rate",
+        label="Revenue Recovery Rate",
         value=f"{recov_ai['recovery_rate_pct']:.1f}%",
         delta=f"+{comp.get('rate_lift_vs_rule_based_pct', 0):.1f}% vs Rules",
-        help="Percentage of failed GMV successfully salvaged.",
+        help=f"Percentage of failed gross merchandise value (GMV) successfully salvaged ({recov_ai['recovery_rate_pct']:.1f}% GMV recovered vs {txn_rate:.1f}% transaction volume recovered: {recov_ai['recovered_count']}/{benchmark_results['total_transactions']}).",
     )
     kpi4.metric(
         label="Cost Savings vs Naive",
@@ -155,21 +156,27 @@ def render_executive_view():
 
     # 4. Reconciled Financial Ledger Table
     st.markdown("### 📑 Reconciled Financial Benchmark Ledger")
+    st.caption(
+        "💡 **Interactive Sandbox**: Simulates live over the held-out test split (`data/processed/test.csv`). "
+        "Adjust the slider above to explore custom batch sizes and merchant verticals in real time. "
+        "For the formal 30-seed statistical robustness evaluation across all 1,500 held-out test transactions, see `EVALUATION_REPORT.md` and `results/robustness_30seed_summary.md`."
+    )
     ledger_rows = []
     for pol_key, p_data in policies.items():
         gross = p_data.get("gross_recovered_inr", 0.0)
         ops = p_data.get("operational_costs_inr", 0.0)
         fric = p_data.get("friction_penalties_inr", 0.0)
         net = p_data.get("net_revenue_recovered_inr", 0.0)
-        rate = p_data.get("recovery_rate_pct", 0.0)
+        rev_rate = p_data.get("revenue_recovery_rate_pct", p_data.get("recovery_rate_pct", 0.0))
+        txn_rate = p_data.get("txn_recovery_rate_pct", (p_data.get("recovered_count", 0) / len(txns) * 100.0) if len(txns) > 0 else 0.0)
         interv = p_data.get("interventions_triggered", 0)
         recov_cnt = p_data.get("recovered_count", 0)
         name = p_data.get("policy_name", pol_key)
 
         ledger_rows.append({
             "Policy Strategy": name,
-            "Recoveries": f"{recov_cnt} / {len(txns)}",
-            "Recovery Rate (%)": f"{rate:.1f}%",
+            "Recovered Txns": f"{recov_cnt} / {len(txns)} ({txn_rate:.1f}%)",
+            "Revenue Recovery Rate (%)": f"{rev_rate:.1f}%",
             "Gross Recovered": f"₹{gross:,.2f}",
             "Direct Ops Costs": f"₹{ops:,.2f}",
             "Friction Penalties": f"₹{fric:,.2f}",

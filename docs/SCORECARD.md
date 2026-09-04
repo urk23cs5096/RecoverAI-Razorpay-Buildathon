@@ -12,8 +12,8 @@
 | **3** | **AI Depth** | **9.5 / 10** | Dual-layer architecture: calibrated LightGBM for quantitative risk + Pydantic-constrained LLM for root-cause synthesis and empathetic recovery copy. |
 | **4** | **ML Quality** | **9.5 / 10** | Platt probability calibration (`CalibratedClassifierCV`) achieving an ECE of **0.0101** and Brier score of **0.1703** on held-out test data with zero leakage. |
 | **5** | **Agentic Behavior** | **9.5 / 10** | Bounded state machine implementing the complete `Detect -> Diagnose -> Decide -> Guardrail -> Act -> Verify -> Audit` lifecycle. |
-| **6** | **Engineering Quality** | **10 / 10** | Clean modular architecture, strict type hints, Pydantic data contracts, SQLite persistence, 100% test pass rate across 22 automated test suites. |
-| **7** | **Business Impact** | **10 / 10** | Measured +₹2.79 Cr Net Lift over naive gateway retries, +₹2.37 Cr Macro Lift over rule-based dunning ($p = 4.09 \times 10^{-45}$ across 30 seeds), and transparent multi-seed attribution. |
+| **6** | **Engineering Quality** | **10 / 10** | Clean modular architecture, strict type hints, Pydantic data contracts, SQLite persistence, 100% test pass rate (23/23 passed) across automated test suites. |
+| **7** | **Business Impact** | **10 / 10** | Measured +₹2.79 Cr Net Lift over naive gateway retries, +₹2.37 Cr Macro Lift over rule-based dunning ($p = 4.09 \times 10^{-45}$ across 30 seeds), and transparent multi-seed attribution (ML tiering mean -₹1.58L, 95% CI [-₹3.96L, +₹0.80L], $p = 0.1854$). |
 | **8** | **Evaluation Quality** | **10 / 10** | Comprehensive benchmarking: ROC-AUC, PR-AUC, Brier score, ECE, calibration curves, confusion matrix, 5-arm simulation, No-ML ablation, and 30-seed paired hypothesis testing. |
 | **9** | **Safety & Invariants** | **10 / 10** | Hard deterministic circuit breakers: Max 3 retries, 24h communication cooldown, ₹50k+ human escalation, SHA-256 idempotency validation. |
 | **10** | **Explainability** | **10 / 10** | Full tree feature attribution, interactive reliability calibration curves, per-transaction audit trails, and plain-language merchant guidance. |

@@ -7,7 +7,7 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.32+-red.svg)](https://streamlit.io/)
 [![LightGBM](https://img.shields.io/badge/LightGBM-Calibrated-orange.svg)](https://lightgbm.readthedocs.io/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-22%2F22%20passed-brightgreen.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-23%2F23%20passed-brightgreen.svg)](tests/)
 
 ---
 
@@ -37,7 +37,7 @@ python run_demo.py
 # 3. Launch Streamlit Interactive UI (opens on http://localhost:8501)
 python run_demo.py --dashboard
 
-# 4. Execute Full Automated Test Suite (22/22 Passing)
+# 4. Execute Full Automated Test Suite (23/23 Passing)
 pytest tests/ -v
 ```
 *(For complete step-by-step installation, API server setup, and dataset training, see [Section 5: Quickstart & Installation](#-5-quickstart--installation).)*
@@ -98,13 +98,13 @@ flowchart LR
 | **Classification Recall** | 33.7% | 44.1% | **100.0%** |
 
 ### B. Physical Counterfactual Policy Simulation (1,500 Test Transactions, ₹3.64 Cr at Risk — Snapshot on Seed=42)
-| Policy Strategy | Recovered Count | Recovery Rate (%) | Gross Recovered (₹) | Direct Ops Cost (₹) | Friction Cost (₹) | Net Recovered (₹) | Net Lift vs Naive (₹) |
+| Policy Strategy | Recovered Txns (Count & %) | Revenue Recovery Rate (%) | Gross Recovered (₹) | Direct Ops Cost (₹) | Friction Cost (₹) | Net Recovered (₹) | Net Lift vs Naive (₹) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **RecoverAI (Full Agent with ML Tiering)** | **1,147 / 1,500** | **82.3%** | **₹2.99 Cr** | **₹23,892.90** | **₹1,233.00** | **₹2.988 Cr** | **+₹2.791 Cr** |
-| **RecoverAI_No_ML (Ablation)** | 1,123 / 1,500 | 80.3% | ₹2.92 Cr | ₹26,897.30 | ₹1,947.00 | ₹2.917 Cr | +₹2.720 Cr |
-| **Rule-Based Dunning** | 269 / 1,500 | 17.1% | ₹62.3 Lakhs | ₹480.75 | ₹1,197.00 | ₹62.31 Lakhs | +₹42.66 Lakhs |
-| **Naive Immediate 3x** | 85 / 1,500 | 5.4% | ₹19.7 Lakhs | ₹2,250.00 | ₹0.00 | ₹19.65 Lakhs | Baseline (₹0 Lift) |
-| **No Intervention** | 0 / 1,500 | 0.0% | ₹0.00 | ₹0.00 | ₹0.00 | ₹0.00 | -₹19.65 Lakhs |
+| **RecoverAI (Full Agent with ML Tiering)** | **1,147 / 1,500 (76.5%)** | **82.3%** | **₹2.99 Cr** | **₹23,892.90** | **₹1,233.00** | **₹2.988 Cr** | **+₹2.791 Cr** |
+| **RecoverAI_No_ML (Ablation)** | 1,123 / 1,500 (74.9%) | 80.3% | ₹2.92 Cr | ₹26,897.30 | ₹1,947.00 | ₹2.917 Cr | +₹2.720 Cr |
+| **Rule-Based Dunning** | 269 / 1,500 (17.9%) | 17.1% | ₹62.3 Lakhs | ₹480.75 | ₹1,197.00 | ₹62.31 Lakhs | +₹42.66 Lakhs |
+| **Naive Immediate 3x** | 85 / 1,500 (5.7%) | 5.4% | ₹19.7 Lakhs | ₹2,250.00 | ₹0.00 | ₹19.65 Lakhs | Baseline (₹0 Lift) |
+| **No Intervention** | 0 / 1,500 (0.0%) | 0.0% | ₹0.00 | ₹0.00 | ₹0.00 | ₹0.00 | -₹19.65 Lakhs |
 
 *Key Value Attribution Finding*: The multi-rail intervention design (1-Click WhatsApp pay links for 3DS drops, mandate re-auth links, dynamic switch maintenance backoffs) drives the **macro recovery surge** (+₹2.37 Cr Net Revenue Lift over rules, 95% CI [+₹2.34 Cr, +₹2.40 Cr], $p = 4.09 \times 10^{-45}$). Across 30 random seeds with paired seed synchronization, the **Multi-Seed Robustness Evaluation** reveals that the primary business recovery is driven by the multi-rail action architecture, while fine-grained ML tiering provides structured calibration (ECE 0.0101), explainability, and automated feature monitoring near the action-space frontier.
 

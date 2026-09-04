@@ -21,7 +21,7 @@
 > *"Let's see RecoverAI execute live.*
 > 
 > *(Running `python run_demo.py` on real held-out incident `txn_102116`)*
-> *Watch the agent execute its 9-stage pipeline in under 5 seconds on a real ₹1,19,334.92 B2B enterprise payment failure:*
+> *Watch the agent execute its 8-stage pipeline in under 5 seconds on a real ₹1,19,334.92 B2B enterprise payment failure:*
 > 1. **Incident Ingestion & Features**: The agent ingests the `INSUFFICIENT_FUNDS` error (`U66`) and transforms 14 leak-free features in under 10ms.
 > 2. **Probability Calibration in Action**: The raw tree model underconfidently predicted 59.4%. Platt scaling corrects this to **68.04%** ($ECE = 0.0101$).
 > 3. **Expected Value Financial Decision**: Uncalibrated probabilities would have selected a delayed WhatsApp link (Net EV: ₹79,424). Calibrated EV selects **`MANUAL_ESCALATION`** (Net EV: **₹1,04,964**), capturing an extra **+₹25,539.85 in expected ROI**.
@@ -45,7 +45,7 @@
 > *"We evaluated RecoverAI on a benchmark of 10,000 transactions across 5 merchant verticals and ran a rigorous **30-seed counterfactual robustness evaluation** on 1,500 held-out test transactions (₹3.64 Crore at risk).*
 > 
 > *Here is the honest breakdown of where the value comes from:*
-> - **Macro Multi-Rail Action Design (+₹2.37 Crore Net Lift, $p < 0.001$)**: The overwhelming driver of revenue recovery is the multi-rail action architecture—providing 1-click WhatsApp links for 3DS drops, mandate re-auth links, and dynamic switch backoffs. This delivers a statistically robust **+₹2.37 Crore Net Revenue Lift** (95% CI: [+₹2.34 Cr, +₹2.40 Cr], $p = 4.09 \times 10^{-45}$) over standard rule-based dunning (17.1% baseline).
+> - **Macro Multi-Rail Action Design (+₹2.37 Crore Net Lift, $p < 0.001$)**: The overwhelming driver of revenue recovery is the multi-rail action architecture—providing 1-click WhatsApp links for 3DS drops, mandate re-auth links, and dynamic switch backoffs. This delivers a statistically robust **+₹2.37 Crore Net Revenue Lift** (95% CI: [+₹2.34 Cr, +₹2.40 Cr], $p = 4.09 \times 10^{-45}$) over standard rule-based dunning (17.1% revenue recovery rate baseline, 17.9% transaction count).
 > - **The Role of ML Calibration**: In our multi-seed ablation check, fine-grained ML tiering variance falls within simulation noise across seeds (mean -₹1.58L, $p=0.185$). The real production value of the ML layer is **probability calibration (ECE: 0.0101)**, automated feature attribution, and edge-case margin protection.
 > - **Safety & Cost Efficiency**: By replacing blind retries and redundant SMS blasts with fatigue cooldowns and smart routing, RecoverAI reduces operational recovery waste while safeguarding customer relationships."*
 

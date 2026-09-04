@@ -57,7 +57,7 @@ In India's digital payments ecosystem (UPI, Cards, NetBanking, e-NACH/Auto-Debit
 ## 6. Business Impact & Evaluation Metrics
 
 1. **Net Recovered Revenue ($\Delta \text{₹}$)**: Total gross recovered revenue minus recovery operational costs (gateway fees, SMS/WhatsApp API costs).
-2. **Recovery Rate Lift (%)**: Percentage point increase in successfully recovered transactions over the *Naive Immediate 3x Retry* baseline.
+2. **Revenue Recovery Rate Lift (%)**: Percentage point increase in successfully recovered GMV revenue (and transaction volume) over the *Naive Immediate 3x Retry* baseline.
 3. **Recovery Precision**: Percentage of triggered interventions that resulted in successful payment recovery (minimizing unnecessary friction).
 4. **Customer Friction Reduction**: Reduction in unnecessary customer communications and redundant bank API calls.
 5. **Model Calibration Score (Brier Score & ECE)**: Ensuring predicted recovery probabilities accurately reflect real recovery frequencies.

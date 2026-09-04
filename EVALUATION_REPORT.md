@@ -28,7 +28,7 @@ This report provides an empirical evaluation across 10,000 synthetic payment fai
 
 Evaluated on 1,500 held-out test transactions representing **₹3,63,51,022.68** in gross revenue at risk:
 
-| Model Architecture | ROC-AUC | PR-AUC | Precision | Recall | F1 Score | Brier Score (↓) | ECE (↓) | Gross Recovered (₹) | Net Recovered (₹) | Recovery Rate (%) | Interventions |
+| Model Architecture | ROC-AUC | PR-AUC | Precision | Recall | F1 Score | Brier Score (↓) | ECE (↓) | Gross Recovered (₹) | Net Recovered (₹) | Revenue Recovery Rate (%) | Interventions |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Rule-Based Heuristic** | 0.5693 | 0.8129 | **0.8806** | 0.3374 | 0.4878 | 0.4389 | 0.5011 | ₹92,20,555.91 | ₹92,20,041.71 | 25.4% | 444 |
 | **Logistic Regression Baseline** | **0.6173** | 0.8435 | 0.8531 | 0.4409 | 0.5813 | 0.2486 | 0.2710 | ₹1,25,11,545.09 | ₹1,25,10,801.89 | 34.4% | 599 |
@@ -50,13 +50,13 @@ Evaluated on 1,500 held-out test transactions representing **₹3,63,51,022.68**
 
 The financial ledger reconciles every paisa: $\text{Net Revenue Recovered} = \text{Gross Recovered} - (\text{Direct Operational Costs} + \text{Customer Friction Costs})$.
 
-| Policy Strategy | Recovered Count | Recovery Rate (%) | Gross Recovered (₹) | Direct Operational Costs (₹) | Customer Friction Costs (₹) | Total Deductions (₹) | Net Revenue Recovered (₹) | Interventions Triggered |
+| Policy Strategy | Recovered Txns (Count & %) | Revenue Recovery Rate (%) | Gross Recovered (₹) | Direct Operational Costs (₹) | Customer Friction Costs (₹) | Total Deductions (₹) | Net Revenue Recovered (₹) | Interventions Triggered |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **RecoverAI (Full Agent with ML Tiering)** | **1,147 / 1,500** | **82.3%** | **₹2,99,02,875.73** | **₹23,892.90** | **₹1,233.00** | **₹25,125.90** | **₹2,98,77,749.83** | **1,480** |
-| **RecoverAI_Actions_No_ML (Ablation: Uniform Prior $P=0.65$)** | 1,123 / 1,500 | 80.3% | ₹2,91,97,092.81 | ₹26,897.30 | ₹1,947.00 | ₹28,844.30 | ₹2,91,68,248.51 | 1,437 |
-| **Rule-Based Heuristic (Standard Dunning)** | 269 / 1,500 | 17.1% | ₹62,32,789.22 | ₹480.75 | ₹1,197.00 | ₹1,677.75 | ₹62,31,111.47 | 1,161 |
-| **Naive Immediate 3x Retry** | 85 / 1,500 | 5.4% | ₹19,67,263.09 | ₹2,250.00 | ₹0.00 | ₹2,250.00 | ₹19,65,013.09 | 4,500 |
-| **No Intervention (Baseline)** | 0 / 1,500 | 0.0% | ₹0.00 | ₹0.00 | ₹0.00 | ₹0.00 | ₹0.00 | 0 |
+| **RecoverAI (Full Agent with ML Tiering)** | **1,147 / 1,500 (76.5%)** | **82.3%** | **₹2,99,02,875.73** | **₹23,892.90** | **₹1,233.00** | **₹25,125.90** | **₹2,98,77,749.83** | **1,480** |
+| **RecoverAI_Actions_No_ML (Ablation: Uniform Prior $P=0.65$)** | 1,123 / 1,500 (74.9%) | 80.3% | ₹2,91,97,092.81 | ₹26,897.30 | ₹1,947.00 | ₹28,844.30 | ₹2,91,68,248.51 | 1,437 |
+| **Rule-Based Heuristic (Standard Dunning)** | 269 / 1,500 (17.9%) | 17.1% | ₹62,32,789.22 | ₹480.75 | ₹1,197.00 | ₹1,677.75 | ₹62,31,111.47 | 1,161 |
+| **Naive Immediate 3x Retry** | 85 / 1,500 (5.7%) | 5.4% | ₹19,67,263.09 | ₹2,250.00 | ₹0.00 | ₹2,250.00 | ₹19,65,013.09 | 4,500 |
+| **No Intervention (Baseline)** | 0 / 1,500 (0.0%) | 0.0% | ₹0.00 | ₹0.00 | ₹0.00 | ₹0.00 | ₹0.00 | 0 |
 
 ---
 
@@ -72,8 +72,8 @@ To rigorously evaluate where the recovery value originates, we performed an abla
          30-SEED EMPIRICAL STATISTICAL ROBUSTNESS & ATTRIBUTION DECOMPOSITION
 ========================================================================================
 1. MACRO ACTION-DESIGN LIFT (Multi-Rail Action Design vs. Rule-Based Dunning):
-   • Standard Dunning Rules Net Recovery:                ₹62,31,111.47  (17.1%)
-   • No-ML Tiered Multi-Rail Baseline Net Recovery:      ₹2,91,68,248.51 (80.3%)
+   • Standard Dunning Rules Net Recovery:                ₹62,31,111.47  (17.1% revenue rate)
+   • No-ML Tiered Multi-Rail Baseline Net Recovery:      ₹2,91,68,248.51 (80.3% revenue rate)
    -------------------------------------------------------------------------------------
    • Mean Macro Net Revenue Lift (30 Seeds):            +₹2,36,74,637.36 (+₹2.37 Cr Net Lift)
    • 95% Confidence Interval:                           [+₹2,33,91,425.00, +₹2,39,57,849.72]
@@ -81,7 +81,7 @@ To rigorously evaluate where the recovery value originates, we performed an abla
    • Statistical Verdict:                               OVERWHELMINGLY STATISTICALLY SIGNIFICANT
 
 2. PRECISION ML TIERING LIFT (Full ML Tiering vs. No-ML Multi-Rail Ablation Arm):
-   • Single-Seed Snapshot (Seed=42):                    +₹7,09,501.32 (+₹7.10 Lakhs, +2.0% rate)
+   • Single-Seed Snapshot (Seed=42):                    +₹7,09,501.32 (+₹7.10 Lakhs, +2.0% revenue rate)
    • 30-Seed Empirical Distribution:
      - Mean Incremental ML Net Lift:                    -₹1,57,855.93 (-₹1.58 Lakhs)
      - Standard Deviation (Std Dev):                    ₹6,37,313.96
@@ -97,7 +97,7 @@ To rigorously evaluate where the recovery value originates, we performed an abla
 
 ### Honest Engineering Interpretation of Value Attribution:
 1. **The Primary Value Engine is Multi-Rail Action Design (+₹2.37 Cr)**:
-   The massive leap from ~17% to ~80% recovery (+₹2.37 Cr net recovered GMV, $p = 4.09 \times 10^{-45}$) is causally driven by the **agentic multi-rail action architecture** (1-Click WhatsApp pay links for 3DS drops, mandate re-auth links, dynamic switch maintenance backoffs, and the 24-hour customer communication fatigue cooldown).
+   The massive leap from ~17.1% to ~80.3% revenue recovery rate (+₹2.37 Cr net recovered GMV, $p = 4.09 \times 10^{-45}$) is causally driven by the **agentic multi-rail action architecture** (1-Click WhatsApp pay links for 3DS drops, mandate re-auth links, dynamic switch maintenance backoffs, and the 24-hour customer communication fatigue cooldown).
 2. **Fine-Grained ML Tiering operates near the Action-Space Frontier**:
    While the single seed run (seed=42) produced +₹7.10 Lakhs due to routing 43 repeat dropouts to Tier 2 in-app UPI intent switches under fatigue cooldowns, multi-seed evaluation across 30 seeds demonstrates that the 95% CI $[-₹3.96\text{L}, +₹0.80\text{L}]$ crosses zero with $p = 0.1854$. Fine-grained ML probability score differences between Tier 2 and Tier 3 actions produce variances that fall within stochastic simulation noise once optimal action channels and deterministic guardrails are in place.
 3. **Takeaway for Production Architecture**:
